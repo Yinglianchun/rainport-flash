@@ -1,0 +1,14 @@
+node_modules/
+dist/
+out/
+release/
+runtime/
+
+*.exe
+*.dll
+*.pak
+*.bin
+*.log
+
+.DS_Store
+Thumbs.db

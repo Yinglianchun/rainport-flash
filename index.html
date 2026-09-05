@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self'; script-src 'self'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rainport</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="toolbar">
+      <nav class="nav-buttons" aria-label="浏览控制">
+        <button id="back" class="icon-button" type="button" title="后退 (Alt+左)">←</button>
+        <button id="forward" class="icon-button" type="button" title="前进 (Alt+右)">→</button>
+        <button id="reload" class="icon-button" type="button" title="刷新 (Ctrl+R)">↻</button>
+        <button id="home" class="icon-button" type="button" title="主页">⌂</button>
+      </nav>
+
+      <form id="address-form" class="address-form">
+        <span id="security-mark" class="security-mark" aria-hidden="true">●</span>
+        <input
+          id="address"
+          type="text"
+          inputmode="url"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="网址"
+          placeholder="输入网址或搜索"
+        />
+      </form>
+
+      <button id="bookmark-current" class="icon-button bookmark-button" type="button" title="收藏当前页面">☆</button>
+
+      <div class="zoom-controls" aria-label="页面缩放">
+        <button id="zoom-out" type="button" title="缩小 (Ctrl+-)">−</button>
+        <button id="zoom-reset" type="button" title="恢复 100%">
+          <span id="zoom-label">100%</span>
+        </button>
+        <button id="zoom-in" type="button" title="放大 (Ctrl++)">＋</button>
+      </div>
+      <button id="library" class="icon-button" type="button" title="收藏和历史记录">☰</button>
+      <button id="screenshot" class="icon-button window-action" type="button" title="截取完整游戏画面 (Ctrl+Shift+S)" aria-label="截取完整游戏画面">
+        <span class="button-icon camera-icon" aria-hidden="true"></span>
+      </button>
+      <button id="fullscreen" class="icon-button window-action" type="button" title="游戏全屏 (F11)" aria-label="游戏全屏">
+        <span class="button-icon fullscreen-icon" aria-hidden="true"></span>
+      </button>
+      <div class="window-controls" aria-label="窗口控制">
+        <button id="minimize-window" class="window-control" type="button" title="最小化" aria-label="最小化">
+          <span class="button-icon minimize-icon" aria-hidden="true"></span>
+        </button>
+        <button id="maximize-window" class="window-control" type="button" title="最大化" aria-label="最大化">
+          <span class="button-icon maximize-icon" aria-hidden="true"></span>
+        </button>
+        <button id="close-window" class="window-control close-button" type="button" title="关闭浏览器" aria-label="关闭浏览器">×</button>
+      </div>
+      <span id="status" class="hidden" aria-live="polite">准备好了</span>
+    </header>
+
+    <main class="browser-stage">
+      <section id="welcome" class="welcome">
+        <div class="welcome-card">
+          <h1>Rainport</h1>
+          <p>在上方输入网址，打开那些还留在旧世界里的游戏。</p>
+        </div>
+        <footer class="welcome-footer">
+          <p class="safety-note">仅用于游戏，请勿登录邮箱、支付或其他重要账号。</p>
+          <p class="credits">Haven × 池又雨 <span aria-hidden="true">·</span> <a id="repository-link" class="repository-name" href="https://github.com/Yinglianchun/rainport-flash">GitHub</a></p>
+        </footer>
+      </section>
+
+      <webview
+        id="webview"
+        class="game-view hidden"
+        partition="persist:haven-flash"
+        plugins
+        allowpopups
+      ></webview>
+      <div id="capture-cover" class="capture-cover hidden" aria-live="polite">
+        <span>正在截取完整游戏画面…</span>
+      </div>
+    </main>
+
+    <aside id="library-panel" class="library-panel hidden" aria-label="收藏和历史记录">
+      <div class="library-header">
+        <div>
+          <strong>游戏书架</strong>
+          <span>收藏与足迹</span>
+        </div>
+        <button id="close-library" class="icon-button" type="button" title="关闭">×</button>
+      </div>
+      <div class="library-tabs" role="tablist">
+        <button class="library-tab active" data-library-tab="bookmarks" type="button">收藏</button>
+        <button class="library-tab" data-library-tab="history" type="button">历史</button>
+        <button class="library-tab" data-library-tab="cleanup" type="button">清理</button>
+      </div>
+
+      <section class="library-view" data-library-view="bookmarks">
+        <div id="bookmark-list" class="item-list"></div>
+        <div class="library-actions">
+          <button id="import-bookmarks" class="secondary-button" type="button">导入</button>
+          <button id="export-bookmarks" class="secondary-button" type="button">导出</button>
+        </div>
+      </section>
+
+      <section class="library-view hidden" data-library-view="history">
+        <input id="history-search" class="history-search" type="search" placeholder="搜索历史记录" autocomplete="off" />
+        <div id="history-list" class="item-list"></div>
+      </section>
+
+      <section class="library-view hidden" data-library-view="cleanup">
+        <p class="cleanup-note">Cookie 默认不会清理，避免把游戏账号登出。</p>
+        <label class="cleanup-option"><input id="clear-history-option" type="checkbox" checked /> 历史记录</label>
+        <label class="cleanup-option"><input id="clear-cache-option" type="checkbox" /> 网页缓存</label>
+        <label class="cleanup-option"><input id="clear-cookies-option" type="checkbox" /> Cookie（会退出登录）</label>
+        <button id="clear-selected" class="danger-button" type="button">清理所选数据</button>
+        <span id="cleanup-result" class="cleanup-result" aria-live="polite"></span>
+      </section>
+    </aside>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

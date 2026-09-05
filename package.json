@@ -1,0 +1,8 @@
+{
+  "name": "rainport",
+  "version": "1.0.0",
+  "productName": "Rainport",
+  "description": "A small Windows browser for the Flash games left behind by time.",
+  "author": "Haven × 池又雨",
+  "main": "main.js"
+}
