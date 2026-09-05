@@ -8,6 +8,11 @@ Chromium 87 和 PPAPI Flash Player 29，提供基础页面缩放、收藏夹和�
 
 ![Rainport 主页](docs/screenshots/home.png)
 
+## 下载
+
+从 [GitHub Releases](https://github.com/Yinglianchun/rainport-flash/releases/latest) 下载 Windows x64
+压缩包，完整解压后运行 `Rainport.exe`。不要直接在 ZIP 内启动，也不要只取出 exe。
+
 ## 游戏兼容
 
 Rainport 可以运行网页中的 Flash 游戏，包括百田的奥比岛、奥雅之光、奥奇传说、奥拉星、
